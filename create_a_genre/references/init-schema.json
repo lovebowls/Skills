@@ -1,0 +1,259 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "wagtales://schemas/init/v1",
+    "$version": "1.0.0",
+    "title": "Genre Init Schema",
+    "description": "Simplified JSON Schema for authored genre init.json files",
+    "type": "object",
+    "definitions": {
+        "visibilityCondition": {
+            "type": "object",
+            "minProperties": 1,
+            "properties": {
+                "exists": {
+                    "type": "boolean"
+                },
+                "==": {
+                    "type": [
+                        "string",
+                        "number",
+                        "boolean"
+                    ]
+                },
+                "!=": {
+                    "type": [
+                        "string",
+                        "number",
+                        "boolean"
+                    ]
+                },
+                ">": {
+                    "type": "number"
+                },
+                ">=": {
+                    "type": "number"
+                },
+                "<": {
+                    "type": "number"
+                },
+                "<=": {
+                    "type": "number"
+                }
+            },
+            "additionalProperties": false
+        },
+        "customDataShapeEntry": {
+            "type": "object",
+            "properties": {
+                "promptIncludeMask": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 255,
+                    "description": "Bitmask controlling which prompt families receive the property"
+                },
+                "visibilityConditions": {
+                    "type": "object",
+                    "description": "Runtime visibility filters keyed by player.*, world.*, location, time.*, currentTurn, or immutable.act paths",
+                    "additionalProperties": {
+                        "anyOf": [
+                            {
+                                "type": [
+                                    "string",
+                                    "number",
+                                    "boolean"
+                                ]
+                            },
+                            {
+                                "$ref": "#/definitions/visibilityCondition"
+                            }
+                        ]
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "customDataShape": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/customDataShapeEntry"
+            }
+        },
+        "tag": {
+            "type": "object",
+            "required": [
+                "key",
+                "value"
+            ],
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                },
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "maxLength": 64
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "locationEntity": {
+            "type": "object",
+            "required": [
+                "id",
+                "name",
+                "description"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "customDataShape": {
+                    "$ref": "#/definitions/customDataShape",
+                    "description": "Per-custom-property settings for this location"
+                }
+            },
+            "additionalProperties": true
+        },
+        "npcEntity": {
+            "type": "object",
+            "required": [
+                "id",
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "customDataShape": {
+                    "$ref": "#/definitions/customDataShape",
+                    "description": "Per-custom-property settings for this NPC"
+                }
+            },
+            "additionalProperties": true
+        }
+    },
+    "required": [
+        "currentTurn",
+        "time",
+        "location",
+        "world",
+        "metadata"
+    ],
+    "properties": {
+        "currentTurn": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "time": {
+            "type": "object",
+            "required": [
+                "current",
+                "day",
+                "hour",
+                "minute"
+            ],
+            "properties": {
+                "current": {
+                    "type": "string",
+                    "pattern": "^day_\\d+_\\d{2}:\\d{2}$"
+                },
+                "day": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "hour": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 23
+                },
+                "minute": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 59
+                }
+            },
+            "additionalProperties": false
+        },
+        "location": {
+            "type": "string",
+            "description": "ID of the starting location"
+        },
+        "world": {
+            "type": "object",
+            "required": [
+                "locations",
+                "npcs"
+            ],
+            "properties": {
+                "locations": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/locationEntity"
+                    }
+                },
+                "npcs": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/npcEntity"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "metadata": {
+            "type": "object",
+            "required": [
+                "genre",
+                "title",
+                "description",
+                "blacklist"
+            ],
+            "properties": {
+                "genre": {
+                    "type": "string",
+                    "description": "Leave blank in authored templates unless a concrete value is explicitly required"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "blacklist": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/tag"
+                    }
+                },
+                "customDataShape": {
+                    "$ref": "#/definitions/customDataShape",
+                    "description": "Per-metadata-property settings for prompt injection and runtime visibility"
+                }
+            },
+            "additionalProperties": true
+        }
+    },
+    "additionalProperties": false
+}

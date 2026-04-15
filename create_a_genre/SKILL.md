@@ -1,0 +1,99 @@
+---
+name: create_a_genre
+description: Create Wagtales genre init.json files. Use for brainstorming, designing, validating, or generating Wagtales genres with customDataShape filters or roll placeholders.
+---
+
+# Create a Genre
+
+Use this skill for creating new Wagtales genre `init.json` files.
+
+## When To Use This Skill
+
+Use it when the user wants to:
+
+- brainstorm new Wagtales genre or book ideas
+- turn a chosen idea into a valid `init.json`
+- design metadata, NPC, or location properties with `customDataShape`
+- use prompt-family filtering or runtime visibility filtering
+- use roll placeholders inside authored prompt-facing text
+- create a genre that fits the simplified Wagtales `init.json` contract
+
+## Working Principles
+
+- Treat this as a hybrid creative design and software authoring task.
+- The output should be expressive, dramatically interesting, and technically precise.
+- Think like a senior systems designer authoring content for a runtime, not like a novelist writing a synopsis.
+- Every authored field should justify its existence by improving replayability, clarity, statefulness, pacing, or AI behavior.
+- Prefer strong gameplay loops, dynamic state, and controllable variation over passive lore.
+- Use roll placeholders and `customDataShape` only where they create real leverage.
+- Keep the setting legible to a player on turn 1.
+- Make the premise commercially attractive: immediately graspable, emotionally legible, and rich in emergent situations.
+
+## Workflow
+
+### Phase 1
+
+First, give exactly 5 candidate genre ideas to brainstorm.
+
+For each idea provide:
+
+1. Title
+2. One-sentence hook
+3. Why it works well for Wagtales mechanically
+4. The main gameplay loop
+5. What kind of state, filters, or roll-driven variation it could exploit
+6. Risks or design traps to avoid
+
+Constraints for the five ideas:
+
+- Make them materially different from one another.
+- All should strongly exploit prompt/world variable filters.
+- At least 2 should exploit roll placeholders.
+- At least 2 should be grounded and realistic rather than fantastical.
+- At least 1 should support a strong NPC-driven social dynamic.
+- At least 1 should be built around movement between locations or changing world conditions.
+
+Do not write JSON yet.
+Do not choose for the user.
+Do not collapse the ideas into vague blurbs.
+
+### Phase 2
+
+After the user chooses one idea, produce the final `init.json`.
+
+When doing so:
+
+- Output valid JSON only.
+- Base the structure on the bundled template and schema.
+- Prefer minimal but high-leverage authored data rather than bloated filler.
+- Ensure the opening state creates immediate play.
+- Include only fields that have a clear runtime purpose.
+- Use second-person or other narration-control metadata only when it meaningfully constrains the downstream model.
+- If using `customDataShape`, ensure every filtered field has a matching concrete authored field.
+- If using roll placeholders, use only the supported syntax from the bundled guide.
+- Make location, NPC, and metadata text specific enough to guide the AI strongly.
+- Avoid generic placeholders, TODO text, and vague abstractions.
+- Do not include explanatory prose outside the JSON.
+
+## Quality Bar
+
+The final genre should:
+
+- have a strong turn-1 premise
+- suggest a sustainable arc across many turns
+- create opportunities for meaningful choices
+- support changing state over time
+- give the AI crisp instructions without overconstraining it
+- be distinctive enough that a player could choose it from a list immediately
+
+## Resources
+
+Read these bundled files as needed:
+
+- `references/init-template.json` for the base authored shape
+- `references/init-schema.json` for the structural contract
+- `references/sample-good-init-aevum.json` for a worked example that uses rolls and filters
+- `references/genre-init-authoring-guide.md` for general init.json design guidance
+- `references/ROLL-PLACEHOLDER-AUTHOR-GUIDE.md` for supported roll syntax
+- `references/prompt-world-variable-filters-admin-guide.md` for `customDataShape`, `promptIncludeMask`, and visibility rules
+- `references/genre-fixture-template-README.md` for simplified contract notes

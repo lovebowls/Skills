@@ -1,0 +1,108 @@
+{
+    "currentTurn": 0,
+    "time": {
+        "current": "day_1_00:00",
+        "day": 1,
+        "hour": 0,
+        "minute": 0
+    },
+    "location": "afterlife_collection_point",
+    "world": {
+        "locations": {
+            "afterlife_collection_point": {
+                "id": "afterlife_collection_point",
+                "name": "Afterlife Collection Point",
+                "description": "A liminal space where souls between worlds can prepare for their journey through time. To leave this place the player must be prepared; they can choose to take any 3 physical objects they can carry from the modern world. Then, and only then, the Curator moves them to their destination.",
+                "accessible": true,
+                "discovered": true,
+                "image": "6205d51d-f402-491f-9b48-f976fcd4b983.png"
+            }
+        },
+        "npcs": {
+            "the_curator": {
+                "id": "the_curator",
+                "name": "The Curator",
+                "description": "A mysterious entity who facilitates journeys through time for the newly deceased.",
+                "motivation": "To transport souls through a temporal journey according to some unknown cosmic plan.",
+                "role": "Temporal guide",
+                "dialogue_style": "The Curator speaks as though mildly interrupted mid-task. Sentences trail off or pivot. He uses anachronistic vocabulary and treats death as entirely unremarkable.",
+                "curator_rules": "Can only send souls to a random location and time. Can summon any 3 carriable physical objects from the modern world. If the player cannot carry an item, it must be left behind.",
+                "ready_to_transport": false,
+                "customDataShape": {
+                    "curator_rules": {
+                        "promptIncludeMask": 64
+                    }
+                }
+            },
+            "player": {
+                "id": "player",
+                "name": "John",
+                "description": "Recently deceased and confused about new circumstances.",
+                "motivation": "To understand the situation and make the most of this unexpected journey.",
+                "inventory": {
+                    "items": []
+                }
+            }
+        }
+    },
+    "metadata": {
+        "genre": "",
+        "title": "Aevum",
+        "description": "You seem to have died. You may summon 3 objects from the modern world to help you on an incredible journey.",
+        "blacklist": [],
+        "tags": [
+            {
+                "key": "genre",
+                "value": [
+                    "History",
+                    "Adventure"
+                ]
+            },
+            {
+                "key": "age_rating",
+                "value": [
+                    "12A"
+                ]
+            }
+        ],
+        "image": "a14bbc9e-2e19-42ff-9c0a-d687faf2a74d.jpg",
+        "transport_preparation": "WHEN the player has chosen their three items and you are about to update the player's inventory, set world.npcs.the_curator.ready_to_transport to true so the transport can happen on the next turn.",
+        "transport_instructions": "You MUST perform the transport this turn. YEAR: [[ROLL:d200|min=-1500|max=2000|id=arrival_year]]. ARRIVAL SCENE: [[ROLL:d4|choices=City,Town,Countryside,Wilderness|id=arrival_scene]]. ARRIVAL TIME: [[ROLL:d16|min=5|max=20]]:[[ROLL:d60]] (24h format). Use the resolved year and arrival scene type to determine a historically plausible real-world destination. Create or fully update the arrival location so that all location fields, custom data, and description match the resolved values exactly. Set afterlife_collection_point accessible to false as part of the same transition. Move the player immediately to the arrival location.",
+        "Authors_note": "For the opening state, do not invent extra setup steps. The key loop is object selection followed by immediate transport once the Curator is ready.",
+        "Second_person": "When describing the player's actions, movements, and experiences, always use second-person perspective (you, your, yours).",
+        "game_rules": "Whatever year and place are chosen, the player can understand any language spoken there. No other magic occurs after transportation. The setting must remain realistic and historical.",
+        "customDataShape": {
+            "Authors_note": {
+                "promptIncludeMask": 16
+            },
+            "Second_person": {
+                "promptIncludeMask": 7
+            },
+            "game_rules": {
+                "promptIncludeMask": 71
+            },
+            "transport_instructions": {
+                "promptIncludeMask": 8,
+                "visibilityConditions": {
+                    "location": {
+                        "==": "afterlife_collection_point"
+                    },
+                    "world.npcs.the_curator.ready_to_transport": {
+                        "==": true
+                    }
+                }
+            },
+            "transport_preparation": {
+                "promptIncludeMask": 8,
+                "visibilityConditions": {
+                    "location": {
+                        "==": "afterlife_collection_point"
+                    },
+                    "world.npcs.the_curator.ready_to_transport": {
+                        "==": false
+                    }
+                }
+            }
+        }
+    }
+}
