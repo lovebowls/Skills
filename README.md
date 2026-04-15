@@ -172,15 +172,15 @@ some_skill.zip
 ## Current Skills
 
 - `create_a_genre`
-- `Skill Template`
+- `template`
 
 ## Starter Template
 
-Use `Skill Template` as the base when creating a new reusable workflow in this folder.
+Use `template` as the base when creating a new reusable workflow in this folder.
 
 Recommended process:
 
-1. Copy `Skill Template` to a new folder with the final skill name.
+1. Copy `template` to a new folder with the final skill name.
 2. Replace the frontmatter and body in `SKILL.md`.
 3. Add or replace files in `references/`.
 4. Remove any example placeholders that no longer apply.
