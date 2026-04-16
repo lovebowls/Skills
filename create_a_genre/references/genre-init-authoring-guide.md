@@ -70,6 +70,43 @@ The player should be able to answer, within a few lines:
 - What is going wrong or about to happen?
 - What could I try first?
 
+## Keep Visible Fields Player-Safe
+
+NPC and location `name` and `description` fields are player-visible through the frontend.
+
+That means they should stay surface-level and in-world.
+
+Use them for things the player can already perceive or reasonably know at the current moment:
+
+- appearance
+- manner
+- obvious role
+- immediate atmosphere
+- public context
+
+Do not put hidden or engine-only information into those visible fields.
+
+This includes:
+
+- secret motives
+- inner certainty or hidden doubt the player has not learned yet
+- puzzle answers or persuasion solutions
+- backend/update instructions
+- future reveals
+- author notes masquerading as description
+
+If the information is useful to the AI but should not be directly exposed to the player, move it into a separate custom field.
+
+Typical examples:
+
+- `hidden_motive`
+- `private_fear`
+- `persuasion_hook`
+- `ai_instructions`
+- `case_weak_point`
+
+If that hidden field should only appear in certain prompt families or game states, define a matching entry in `customDataShape`.
+
 ## Use Metadata As Control Surfaces
 
 The `metadata` block is not filler. In this simplified contract it should stay focused.
@@ -80,7 +117,7 @@ Key fields:
 - `title`: Should be immediately legible and marketable.
 - `description`: Should communicate the fantasy and player role crisply.
 - `blacklist`: Only use when specific content needs hard exclusion.
-- `tags`: Optional, but useful when they improve discovery or classification.
+- `tags`: Optional, but useful when they improve discovery or classification. When using `genre` or `age_rating`, follow the permitted values in `tag-authoring-guide.md`.
 
 If you add custom metadata fields, they should provide reusable prompt guidance, world rules, or phase-specific instructions.
 
@@ -158,6 +195,23 @@ Remember:
 
 NPCs should do work inside the scenario.
 
+At least one NPC in `world.npcs` must have `playable: true`.
+
+The runtime uses that NPC as the source character when creating a game, then moves it into the separate `player` slot. If no NPC is marked playable, the genre may import successfully but the game cannot start.
+
+Do not author a separate top-level `player` object in this simplified format.
+
+Every NPC should include:
+
+- `id`
+- `name`
+- `description`
+- `playable`
+
+Every playable NPC must also include `tone` in `HHH:SSS:LLL` format.
+
+Non-playable NPCs may include `tone`, but it is optional.
+
 Good NPC roles include:
 
 - gatekeeper
@@ -176,6 +230,26 @@ For each important NPC, try to imply:
 - why they matter in the first few turns
 - how they might change over time
 
+Important distinction:
+
+- `description` should say what the player can observe or reasonably know now
+- hidden reasoning, secrets, and leverage should live in separate custom fields
+
+For example, this is too revealing for `description`:
+
+- `She voted with the majority but is not certain of her vote. She needs someone to give her permission to say so out loud.`
+
+Prefer:
+
+- `description`: `Primary school teacher, 41. Voted with the majority but has said almost nothing since. She keeps watching you instead of joining the louder voices.`
+- custom field: `hidden_motive` or `private_doubt`: the internal uncertainty or specific persuasion hook
+
+The `playable` flag indicates selection importance, not moral alignment.
+
+- Major protagonist: usually `playable: true`
+- Major antagonist: can also be `playable: true`
+- Minor support, extras, or bit parts: usually `playable: false`
+
 If you add custom NPC properties that should only be visible in some prompt families or game states, define matching entries in that NPC's `customDataShape`.
 
 ## Author Locations For Action
@@ -189,6 +263,10 @@ It should support action through:
 - connection to other future locations or states
 
 A location description should help the AI infer good next moments, not merely paint scenery.
+
+But it should still remain player-safe. Do not place engine rules, hidden state, or out-of-world guidance directly into the visible location description.
+
+If a location needs AI-only operating constraints, put them in a separate custom field such as `ai_instructions` and gate that field with `customDataShape` when appropriate.
 
 If you add custom location properties that should only surface under specific conditions, define matching entries in that location's `customDataShape`.
 
@@ -210,10 +288,11 @@ Before finalizing an `init.json`, check:
 
 1. Is the premise instantly understandable?
 2. Is turn 1 playable without inventing missing structure?
-3. Does the world contain at least one interesting source of change?
-4. Are roll placeholders used only where they improve replayability or consistency?
-5. Are any filtered fields technically valid and genuinely useful?
-6. Do the NPCs and locations create pressure, not just flavor?
-7. Would a player seeing only the title and description want to click this?
+3. Does at least one NPC have `playable: true` so the game can create a player character?
+4. Does the world contain at least one interesting source of change?
+5. Are roll placeholders used only where they improve replayability or consistency?
+6. Are any filtered fields technically valid and genuinely useful?
+7. Do the NPCs and locations create pressure, not just flavor?
+8. Would a player seeing only the title and description want to click this?
 
 If the answer to several of these is no, redesign the genre rather than padding it.

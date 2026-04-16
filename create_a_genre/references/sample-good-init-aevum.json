@@ -23,6 +23,7 @@
                 "id": "the_curator",
                 "name": "The Curator",
                 "description": "A mysterious entity who facilitates journeys through time for the newly deceased.",
+                "playable": false,
                 "motivation": "To transport souls through a temporal journey according to some unknown cosmic plan.",
                 "role": "Temporal guide",
                 "dialogue_style": "The Curator speaks as though mildly interrupted mid-task. Sentences trail off or pivot. He uses anachronistic vocabulary and treats death as entirely unremarkable.",
@@ -38,6 +39,7 @@
                 "id": "player",
                 "name": "John",
                 "description": "Recently deceased and confused about new circumstances.",
+                "playable": true,
                 "motivation": "To understand the situation and make the most of this unexpected journey.",
                 "inventory": {
                     "items": []

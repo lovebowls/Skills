@@ -9,12 +9,30 @@
     "location": "",
     "world": {
         "locations": {},
-        "npcs": {}
+        "npcs": {
+            "player": {
+                "id": "player",
+                "name": "",
+                "description": "",
+                "playable": true,
+                "tone": "180:050:050"
+            }
+        }
     },
     "metadata": {
         "genre": "<leave blank>",
         "title": "",
         "description": "",
-        "blacklist": []
+        "blacklist": [],
+        "tags": [
+            {
+                "key": "genre",
+                "value": ["Drama"]
+            },
+            {
+                "key": "age_rating",
+                "value": ["15"]
+            }
+        ]
     }
 }

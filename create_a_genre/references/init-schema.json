@@ -128,7 +128,9 @@
             "type": "object",
             "required": [
                 "id",
-                "name"
+                "name",
+                "description",
+                "playable"
             ],
             "properties": {
                 "id": {
@@ -139,6 +141,15 @@
                 },
                 "description": {
                     "type": "string"
+                },
+                "playable": {
+                    "type": "boolean",
+                    "description": "Whether this NPC can be selected as the player character. At least one NPC in world.npcs must be true."
+                },
+                "tone": {
+                    "type": "string",
+                    "pattern": "^\\d{3}:\\d{3}:\\d{3}$",
+                    "description": "Required for playable NPCs. Emotional tone in HHH:SSS:LLL format."
                 },
                 "customDataShape": {
                     "$ref": "#/definitions/customDataShape",
@@ -209,6 +220,7 @@
                 },
                 "npcs": {
                     "type": "object",
+                    "minProperties": 1,
                     "additionalProperties": {
                         "$ref": "#/definitions/npcEntity"
                     }

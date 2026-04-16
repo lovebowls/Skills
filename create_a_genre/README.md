@@ -20,3 +20,7 @@ Use this skill when you want Claude to:
 ## Upload Shape
 
 For Claude custom skill upload, package this folder so the ZIP contains the folder itself as the root.
+
+Important: the ZIP's internal entry names must use forward slashes, for example `create_a_genre/SKILL.md`.
+
+If the archive stores Windows-style backslashes such as `create_a_genre\SKILL.md`, Claude may reject the upload with `Zip file contains path with invalid characters`.

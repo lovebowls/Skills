@@ -135,13 +135,19 @@ This keeps uploads reproducible and avoids overwriting a previously known-good p
 
 Use a clean external staging folder so the ZIP does not accidentally include `deploy/`, temporary folders, or recursive artifacts.
 
+Do not use `Compress-Archive` for Claude skill uploads.
+
+Reason: the resulting ZIP may store entry names with Windows backslashes like `create_a_genre\SKILL.md`. Claude's skill updater can reject those with `Zip file contains path with invalid characters`.
+
+Build the ZIP with normalized forward-slash entry names instead.
+
 PowerShell template:
 
 ```powershell
-$src = "c:\Wagtales\middle-layer\Skills\create_a_genre"
+$src = "c:\Wagtales\Skills\create_a_genre"
 $stageRoot = "c:\Wagtales\temp\create_a_genre_upload_stage"
 $stageSkill = Join-Path $stageRoot "create_a_genre"
-$zipPath = "c:\Wagtales\middle-layer\Skills\create_a_genre\deploy\create_a_genre_001.zip"
+$zipPath = "c:\Wagtales\Skills\create_a_genre\deploy\create_a_genre_001.zip"
 
 if (Test-Path $stageRoot) {
     Remove-Item $stageRoot -Recurse -Force -ErrorAction SilentlyContinue
@@ -156,10 +162,46 @@ if (Test-Path $zipPath) {
     Remove-Item $zipPath -Force -ErrorAction SilentlyContinue
 }
 
-Compress-Archive -Path $stageSkill -DestinationPath $zipPath
+Add-Type -AssemblyName System.IO.Compression
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+$zip = [System.IO.Compression.ZipFile]::Open($zipPath, [System.IO.Compression.ZipArchiveMode]::Create)
+try {
+  Get-ChildItem $stageSkill -Recurse -File | ForEach-Object {
+    $relativePath = [System.IO.Path]::GetRelativePath($stageRoot, $_.FullName).Replace('\\', '/')
+    $entry = $zip.CreateEntry($relativePath, [System.IO.Compression.CompressionLevel]::Optimal)
+    $entryStream = $entry.Open()
+    $fileStream = [System.IO.File]::OpenRead($_.FullName)
+    try {
+      $fileStream.CopyTo($entryStream)
+    }
+    finally {
+      $fileStream.Dispose()
+      $entryStream.Dispose()
+    }
+  }
+}
+finally {
+  $zip.Dispose()
+}
 ```
 
 After building, verify the ZIP contents before upload.
+
+Correct internal entry names should look like this:
+
+```text
+create_a_genre/SKILL.md
+create_a_genre/README.md
+create_a_genre/references/init-schema.json
+```
+
+Avoid archives whose internal entry names contain backslashes:
+
+```text
+create_a_genre\SKILL.md
+create_a_genre\references\init-schema.json
+```
 
 Incorrect shape:
 

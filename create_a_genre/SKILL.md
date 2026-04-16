@@ -67,6 +67,17 @@ When doing so:
 - Base the structure on the bundled template and schema.
 - Prefer minimal but high-leverage authored data rather than bloated filler.
 - Ensure the opening state creates immediate play.
+- Do not author a top-level `player` object; the runtime derives the player from a playable NPC at game creation.
+- Ensure every NPC includes `id`, `name`, `description`, and `playable`.
+- Ensure at least one NPC in `world.npcs` is marked `playable: true` so the genre can actually be started.
+- Ensure every playable NPC includes a `tone` value in `HHH:SSS:LLL` format.
+- Non-playable NPCs may include `tone`, but do not need it unless it adds useful emotional guidance.
+- Treat NPC and location `name` and `description` as player-visible UI content.
+- Keep those visible fields superficial and in-world: they should describe only what the player would already know on sight or at the current moment.
+- Do not hide motives, secrets, solution logic, persuasion hooks, engine instructions, or future reveals inside visible `name` or `description` fields.
+- Put hidden, engine-only, or prompt-control information into separate custom fields, and use `customDataShape` when that information should be restricted to specific prompt families or runtime conditions.
+- Use only permitted metadata tag values for `genre` and `age_rating`.
+- Do not invent compound or bespoke genre labels when they can be expressed as a combination of permitted tags.
 - Include only fields that have a clear runtime purpose.
 - Use second-person or other narration-control metadata only when it meaningfully constrains the downstream model.
 - If using `customDataShape`, ensure every filtered field has a matching concrete authored field.
@@ -96,4 +107,6 @@ Read these bundled files as needed:
 - `references/genre-init-authoring-guide.md` for general init.json design guidance
 - `references/ROLL-PLACEHOLDER-AUTHOR-GUIDE.md` for supported roll syntax
 - `references/prompt-world-variable-filters-admin-guide.md` for `customDataShape`, `promptIncludeMask`, and visibility rules
+- `references/tone-system-authoring-guide.md` for assigning NPC tone values in `HHH:SSS:LLL` format
+- `references/tag-authoring-guide.md` for the allowed `genre` and `age_rating` tag values used by the product
 - `references/genre-fixture-template-README.md` for simplified contract notes
