@@ -8,6 +8,18 @@ It focuses on practical authoring choices that make a genre both fun for players
 
 `init.json` is not just backstory. It is the initial playable state plus authored prompt-control data.
 
+Think of it as a compact domain-specific language for playable narrative systems.
+
+The core primitives are:
+
+- authored state
+- prompt routing via `promptIncludeMask`
+- runtime gates via `visibilityConditions`
+- semantic gates via `semanticQueries`
+- deterministic authored randomness via roll placeholders
+
+Do not treat those primitives as decoration. Combine them to encode premise-specific loops, revelation timing, pressure, access control, and escalation.
+
 It should do four jobs well:
 
 1. Establish a compelling premise immediately.
@@ -16,6 +28,31 @@ It should do four jobs well:
 4. Shape downstream AI behavior with precise, high-leverage instructions.
 
 If a field does not improve one of those four jobs, consider omitting it.
+
+## Do Not Clone The Example
+
+The bundled sample is a proof that the contract works, not a recommended default shape.
+
+Do not mirror its structure mechanically by default.
+
+Avoid habits like:
+
+- copying its metadata field mix and simply changing the nouns
+- reusing its one-hub-plus-transition logic when the premise wants a different topology
+- giving every genre the same kind of hidden instructions, transport logic, or NPC arrangement
+- using rolls, filters, and semantic gates in the same places just because the example does
+
+Instead, derive structure from the premise.
+
+Ask:
+
+- what state actually matters here?
+- what should stay hidden, and until when?
+- what must be inferred semantically rather than tracked explicitly?
+- what uncertainty should be resolved by authored randomness?
+- what instructions belong in metadata versus NPC or location custom fields?
+
+Different premises should produce materially different authored shapes.
 
 ## The Current Contract
 
@@ -197,9 +234,7 @@ NPCs should do work inside the scenario.
 
 At least one NPC in `world.npcs` must have `playable: true`.
 
-The runtime uses that NPC as the source character when creating a game, then moves it into the separate `player` slot. If no NPC is marked playable, the genre may import successfully but the game cannot start.
-
-Do not author a separate top-level `player` object in this simplified format.
+If no NPC is marked playable, the genre may import successfully but the game cannot start.
 
 Every NPC should include:
 

@@ -13,11 +13,11 @@ skill-name/
     ...supporting files...
 ```
 
-For this repo, prefer filesystem-safe names with underscores for actual folder names and zip names, for example:
+For this repo, prefer filesystem-safe names that also satisfy Claude skill validation. Use lowercase letters, numbers, and hyphens for skill folder names and matching skill names, for example:
 
 ```text
-create_a_genre/
-create_a_genre_001.zip
+create-a-genre/
+create-a-genre_001.zip
 ```
 
 This avoids upload issues caused by spaces or other path characters in some skill import flows.
@@ -102,8 +102,8 @@ To upload a skill to Claude:
 Correct shape:
 
 ```text
-create_a_genre_001.zip
-  create_a_genre/
+create-a-genre_001.zip
+  create-a-genre/
     SKILL.md
     references/
 ```
@@ -123,10 +123,10 @@ Use incrementing filenames in this format:
 Example:
 
 ```text
-create_a_genre/
+create-a-genre/
   deploy/
-    create_a_genre_001.zip
-    create_a_genre_002.zip
+    create-a-genre_001.zip
+    create-a-genre_002.zip
 ```
 
 This keeps uploads reproducible and avoids overwriting a previously known-good package.
@@ -137,17 +137,17 @@ Use a clean external staging folder so the ZIP does not accidentally include `de
 
 Do not use `Compress-Archive` for Claude skill uploads.
 
-Reason: the resulting ZIP may store entry names with Windows backslashes like `create_a_genre\SKILL.md`. Claude's skill updater can reject those with `Zip file contains path with invalid characters`.
+Reason: the resulting ZIP may store entry names with Windows backslashes like `create-a-genre\SKILL.md`. Claude's skill updater can reject those with `Zip file contains path with invalid characters`.
 
 Build the ZIP with normalized forward-slash entry names instead.
 
 PowerShell template:
 
 ```powershell
-$src = "c:\Wagtales\Skills\create_a_genre"
-$stageRoot = "c:\Wagtales\temp\create_a_genre_upload_stage"
-$stageSkill = Join-Path $stageRoot "create_a_genre"
-$zipPath = "c:\Wagtales\Skills\create_a_genre\deploy\create_a_genre_001.zip"
+$src = "c:\Wagtales\Skills\create-a-genre"
+$stageRoot = "c:\Wagtales\temp\create-a-genre_upload_stage"
+$stageSkill = Join-Path $stageRoot "create-a-genre"
+$zipPath = "c:\Wagtales\Skills\create-a-genre\deploy\create-a-genre_001.zip"
 
 if (Test-Path $stageRoot) {
     Remove-Item $stageRoot -Recurse -Force -ErrorAction SilentlyContinue
@@ -191,16 +191,16 @@ After building, verify the ZIP contents before upload.
 Correct internal entry names should look like this:
 
 ```text
-create_a_genre/SKILL.md
-create_a_genre/README.md
-create_a_genre/references/init-schema.json
+create-a-genre/SKILL.md
+create-a-genre/README.md
+create-a-genre/references/init-schema.json
 ```
 
 Avoid archives whose internal entry names contain backslashes:
 
 ```text
-create_a_genre\SKILL.md
-create_a_genre\references\init-schema.json
+create-a-genre\SKILL.md
+create-a-genre\references\init-schema.json
 ```
 
 Incorrect shape:
@@ -213,7 +213,7 @@ some_skill.zip
 
 ## Current Skills
 
-- `create_a_genre`
+- `create-a-genre`
 - `template`
 
 ## Starter Template

@@ -16,10 +16,8 @@ The simplified template includes:
 ## Required Minimums
 
 - Each authored location should normally include `id`, `name`, and `description`.
-- Do not author a top-level `player` object in the simplified format.
 - Each authored NPC should include `id`, `name`, `description`, and `playable`.
 - At least one NPC must be authored with `playable: true` or the genre will import but fail at game creation.
-- The NPC with `playable: true` is the runtime's source for the player character.
 - Each playable NPC must include `tone` in `HHH:SSS:LLL` format.
 - Non-player NPCs should usually set `playable: false` explicitly.
 - `metadata` should include `genre`, `title`, `description`, and `blacklist`.

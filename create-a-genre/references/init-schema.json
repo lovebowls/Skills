@@ -42,6 +42,55 @@
             },
             "additionalProperties": false
         },
+        "semanticQuery": {
+            "type": "object",
+            "required": [
+                "id",
+                "question",
+                "type",
+                "operator",
+                "expectedValue"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                },
+                "question": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "boolean",
+                        "number",
+                        "string"
+                    ]
+                },
+                "operator": {
+                    "type": "string",
+                    "enum": [
+                        "==",
+                        "!=",
+                        ">",
+                        ">=",
+                        "<",
+                        "<="
+                    ]
+                },
+                "expectedValue": {
+                    "type": [
+                        "string",
+                        "number",
+                        "boolean"
+                    ]
+                }
+            },
+            "additionalProperties": false
+        },
         "customDataShapeEntry": {
             "type": "object",
             "properties": {
@@ -67,6 +116,12 @@
                                 "$ref": "#/definitions/visibilityCondition"
                             }
                         ]
+                    }
+                },
+                "semanticQueries": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/semanticQuery"
                     }
                 }
             },
