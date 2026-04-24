@@ -23,7 +23,9 @@ This gives deterministic randomization within a single prompt and keeps authored
 [[ROLL:dN|id=some_name]]
 [[ROLL:dN|min=X|max=Y]]
 [[ROLL:dN|choices=a,b,c]]
+[[ROLL:dN|choicesArray=["a","b","c"]]]
 [[ROLL|choices=a,b,c]]
+[[ROLL|choicesArray=["a","b","c"]]]
 ```
 
 Examples:
@@ -33,6 +35,7 @@ Examples:
 [[ROLL:d100|min=-1500|max=2000|id=arrival_year]]
 [[ROLL:d4|choices=City,Town,Countryside,Wilderness|id=arrival_location_type]]
 [[ROLL|choices=City,Town,Countryside,Wilderness]]
+[[ROLL|choicesArray=["Anything, including commas","Another long value"]]]
 ```
 
 ## Option Semantics
@@ -81,6 +84,28 @@ Rules:
 - with an explicit die, the number of choices must exactly match the die size
 - without a die, the backend infers the die size from the number of choices
 - choices are comma-separated and trimmed
+- use `choices` only for simple values that do not contain commas
+
+### Structured choice mapping
+
+```text
+[[ROLL|id=disaster_type|choicesArray=[
+	"supervolcano: A Yellowstone or Campi Flegrei-scale eruption has occurred, producing ash fall across the hemisphere.",
+	"solar_storm: A Carrington-class geomagnetic event has struck, disabling satellites and power systems.",
+	"engineered_pandemic: A novel engineered pathogen has been confirmed spreading in multiple countries, with government responses lagging."
+]]]
+```
+
+Rules:
+
+- `choicesArray` must be valid JSON
+- `choicesArray` must parse to a non-empty array
+- every array entry must be a string
+- with an explicit die, the array length must exactly match the die size
+- without a die, the backend infers the die size from the array length
+- commas inside a string are allowed
+- embedded double quotes inside a string must be escaped as `\"`
+- `choices` and `choicesArray` are mutually exclusive
 
 ## Typical Authoring Patterns
 
@@ -102,11 +127,24 @@ Mapped category:
 Use this settlement type: [[ROLL:d4|choices=City,Town,Countryside,Wilderness|id=arrival_location_type]].
 ```
 
+Mapped structured prose:
+
+```text
+Use this disaster seed: [[ROLL|id=disaster_type|choicesArray=["Anything, including commas","A longer authored value","A value with \"quotes\" inside"]]].
+```
+
 Reuse one roll in two forms:
 
 ```text
 The destination category roll is [[ROLL:d4|id=destination_roll]].
 Interpret that same roll as [[ROLL:d4|choices=City,Town,Countryside,Wilderness|id=destination_roll]].
+```
+
+Reuse one roll with a structured mapping:
+
+```text
+The severity bucket is [[ROLL|id=severity|choices=low,medium,high]].
+Interpret that same roll as [[ROLL|id=severity|choicesArray=["Minor disruption","Major instability","Systemic collapse"]]].
 ```
 
 ## Legacy Syntax
@@ -134,8 +172,13 @@ A placeholder is invalid if any of the following are true:
 - `max` is present without `min`
 - `min > max`
 - `choices` is empty
+- `choicesArray` is not valid JSON
+- `choicesArray` is not a non-empty array of strings
 - the number of `choices` does not equal the die size when a die is explicit
+- the number of `choicesArray` entries does not equal the die size when a die is explicit
 - `choices` is combined with `min` or `max`
+- `choicesArray` is combined with `min` or `max`
+- `choices` and `choicesArray` are both present
 - the same `id` is reused with a different die size
 
 Supported option keys are only:
@@ -144,6 +187,7 @@ Supported option keys are only:
 - `min`
 - `max`
 - `choices`
+- `choicesArray`
 
 ## Failure Behavior
 
@@ -167,6 +211,7 @@ remains literal instead of being resolved.
 - Write prompt text so the model uses the resolved value directly.
 - Use `id` whenever multiple prompt fragments must stay consistent.
 - Use `choices` for named categories instead of prose mapping instructions.
+- Use `choicesArray` for values that may contain commas, embedded quotes, or multiline prose.
 - Use `min` and `max` for bounded numeric values.
 - Do not ask the model to perform roll arithmetic itself.
 - Do not use legacy slot syntax.

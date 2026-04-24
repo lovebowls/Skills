@@ -1,9 +1,9 @@
 ---
-name: create-a-genre
-description: Create Wagtales genre init.json files. Use for brainstorming, designing, validating, or generating Wagtales genres with customDataShape filters or roll placeholders.
+name: wagtales-create-template
+description: Create Wagtales genre init.json templates. Use for brainstorming, designing, validating, or generating Wagtales templates with customDataShape filters or roll placeholders.
 ---
 
-# Create a Genre
+# Wagtales Create Template
 
 Use this skill for creating new Wagtales genre `init.json` files.
 
