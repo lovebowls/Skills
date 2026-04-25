@@ -1,6 +1,10 @@
 # Skills
 
-This folder now uses Claude-style skill folders as the standard format for reusable workflows.
+This folder uses Claude-style skill folders as the standard format for reusable workflows.
+
+This repo contains small reusable Wagtales-focused skills for authoring structured `init.json` story templates and related prompt assets.
+
+If you are not using Wagtales already, the main thing to know is that these skills help a model produce authored game/template JSON plus supporting prompt-control fields such as customDataShape, roll placeholders, and semantic query metadata.
 
 ## Standard Structure
 
@@ -52,31 +56,6 @@ Examples:
 - checklists
 
 Keep `SKILL.md` focused and use `references/` for the heavier detail.
-
-## Mapping From The Old Prompt-Pack Format
-
-Old pattern:
-
-```text
-some-workflow/
-  user-prompt.md
-  README.md
-  context/
-```
-
-New standard:
-
-```text
-some-workflow/
-  SKILL.md
-  references/
-```
-
-Mapping rules:
-
-- `user-prompt.md` becomes the main body of `SKILL.md`
-- `context/` becomes `references/`
-- local workflow notes may stay in `README.md`, but `SKILL.md` is the source of truth
 
 ## Writing Good Skill Metadata
 
@@ -132,6 +111,8 @@ wagtales-create-template/
 This keeps uploads reproducible and avoids overwriting a previously known-good package.
 
 ## ZIP Build Commands
+
+The commands below are Windows PowerShell examples.
 
 Use a clean external staging folder so the ZIP does not accidentally include `deploy/`, temporary folders, or recursive artifacts.
 
