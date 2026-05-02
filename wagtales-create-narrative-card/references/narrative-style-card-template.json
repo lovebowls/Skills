@@ -1,0 +1,25 @@
+{
+    "id": "voice_noir_precision",
+    "title": "Noir Precision",
+    "description": "Lean, tense narration that observes people with unsentimental clarity and keeps emotional revelations compressed until they matter.",
+    "representative_authors": [
+        "Raymond Chandler",
+        "Patricia Highsmith"
+    ],
+    "technical_guide": "Favor exact sensory detail, short-to-medium sentences, and understated emotional inference. Let danger register through implication before declaration. Keep exposition sparse and pressure every paragraph toward suspicion, leverage, or exposure.",
+    "example": "The room looked borrowed from a better life: clean lamp, crooked frame, one chair too carefully placed. He stood in the doorway like someone measuring the distance to his next mistake.",
+    "blacklist": [
+        "Whimsical narration that breaks tension",
+        "Over-explaining character motives before the scene earns it"
+    ],
+    "pacing_bias": "slow burn until leverage shifts, then accelerate sharply",
+    "dialogue_temperature": "cool, guarded, elliptical",
+    "customDataShape": {
+        "pacing_bias": {
+            "promptIncludeMask": 2
+        },
+        "dialogue_temperature": {
+            "promptIncludeMask": 66
+        }
+    }
+}
