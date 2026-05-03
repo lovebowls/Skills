@@ -4,17 +4,20 @@ This folder uses Claude-style skill folders as the standard format for reusable 
 
 ## Quick Downloads
 
-If you just want the installable ZIP files and do not want to use Git, download one of these:
+If you just want to download and use the package in Claude:
 
+Download each skill you want to use (open the ZIP file link below and use the Download option on the menu.)
 - [Wagtales Create Template ZIP](wagtales-create-template/deploy/wagtales-create-template_001.zip)
 - [Wagtales Create Narrative Card ZIP](wagtales-create-narrative-card/deploy/wagtales-create-narrative-card_001.zip)
 
-On GitHub, open the ZIP file link and use the Download option on the menu.
-Import this zip (without unpacking) on your [claude skills page](https://claude.ai/customize/skills).
+Import this skill zip (without unpacking) on your [claude skills page](https://claude.ai/customize/skills) but clicking Add Skill -> Create Skill -> Upload a skill.
+Once imported the skill we be available to use in all you subsequent chats with claude.
+
+### For Developers
 
 This repo contains small reusable Wagtales-focused skills for authoring structured `init.json` story templates and related prompt assets.
 
-If you are not using Wagtales already, the main thing to know is that these skills help a model produce authored game/template JSON plus supporting prompt-control fields such as customDataShape, roll placeholders, and semantic query metadata.
+If you are not using Wagtales already, the main thing to know is that these skills help a model produce template content JSON plus supporting more advanced prompt-control fields such as customDataShape, roll placeholders, and semantic query metadata.
 
 ## Standard Structure
 
