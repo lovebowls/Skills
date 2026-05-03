@@ -5,7 +5,7 @@ description: Create Wagtales genre init.json templates. Use for brainstorming, d
 
 # Wagtales Create Template
 
-Use this skill for creating new Wagtales genre `init.json` files.
+Use this skill for creating new Wagtales genre `init.json` files, or for authoring a single Wagtales NPC or location object when the user asks for one specific entity rather than a full template.
 
 ## When To Use This Skill
 
@@ -13,6 +13,8 @@ Use it when the user wants to:
 
 - brainstorm new Wagtales story ideas
 - turn a chosen idea into a valid `init.json`
+- create a single NPC object for insertion into `world.npcs`
+- create a single location object for insertion into `world.locations`
 - design metadata, NPC, or location properties with `customDataShape`
 - use prompt-family filtering or runtime visibility filtering
 - use roll placeholders inside authored prompt-facing text
@@ -30,10 +32,16 @@ Use it when the user wants to:
 - Compose a genre-specific control surface from the primitives available; do not default to the same metadata fields, location pattern, NPC pattern, or progression structure used by bundled examples.
 - Keep the setting legible to a player on turn 1.
 - Make the premise commercially attractive: immediately graspable, emotionally legible, and rich in emergent situations.
+- If the user asks for only one NPC or one location, do not force a full `init.json`; return just the requested entity object.
+- When returning a single entity, keep it fully compatible with the same simplified Wagtales contract used inside `world.npcs` or `world.locations`.
 
 ## Workflow
 
 ### Phase 1
+
+If the user explicitly asks for a single NPC or a single location, skip the three-idea brainstorming phase and go straight to the requested entity.
+
+Otherwise:
 
 First, give exactly 3 candidate genre ideas to brainstorm.
 
@@ -86,6 +94,29 @@ When doing so:
 - Avoid generic placeholders, TODO text, and vague abstractions.
 - Do not include explanatory prose outside the JSON.
 
+### Single-Entity Mode
+
+If the user asks for a single NPC or a single location instead of a full template:
+
+- Output valid JSON only.
+- Output only the requested object, not a full `init.json` wrapper.
+- For an NPC, output one object suitable for insertion under `world.npcs.{id}`.
+- For a location, output one object suitable for insertion under `world.locations.{id}`.
+- Preserve the same quality bar for visible text, hidden fields, `customDataShape`, roll placeholders, and semantic queries.
+- Ensure the object is immediately usable in the Wagtales editor without extra wrapper cleanup.
+
+NPC-specific rules in single-entity mode:
+
+- Always include `id`, `name`, and `description`.
+- Include `playable` when it matters to the user's request.
+- Include `tone` for playable NPCs, and for non-playable NPCs when it adds useful emotional guidance.
+
+Location-specific rules in single-entity mode:
+
+- Always include `id`, `name`, and `description`.
+- Include only fields that make sense for a location object in the simplified contract.
+- If exits, embedded state, or hidden guidance are authored, keep them compatible with the same runtime conventions used in full templates.
+
 ## Quality Bar
 
 The final genre should:
@@ -97,6 +128,13 @@ The final genre should:
 - give the AI crisp instructions without overconstraining it
 - be distinctive enough that a player could choose it from a list immediately
 - feel authored from first principles for its own premise, not like a reskinned variant of the sample genre
+
+In single-entity mode, the NPC or location should:
+
+- feel specific and immediately usable rather than generic
+- expose only the fields that have a real gameplay or prompt purpose
+- keep visible text player-safe and hidden control data in separate fields
+- fit naturally into a larger authored world without requiring structural cleanup
 
 ## Resources
 

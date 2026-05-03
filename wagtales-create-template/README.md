@@ -24,6 +24,18 @@ Use this skill when you want Claude to:
 1. brainstorm Wagtales genre ideas
 2. help choose a direction
 3. generate a final `init.json` using the simplified contract
+4. generate a single NPC object for `world.npcs`
+5. generate a single location object for `world.locations`
+
+## Supported Outputs
+
+This skill can return either:
+
+- a full Wagtales `init.json`
+- one NPC object for insertion into `world.npcs`
+- one location object for insertion into `world.locations`
+
+If the user asks for an individual NPC or location, the skill should return just that object rather than forcing a full template.
 
 ## Upload Shape
 
