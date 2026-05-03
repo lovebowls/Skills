@@ -2,6 +2,14 @@
 
 This folder is a Claude-style skill for generating a single Wagtales narrative-style card as JSON.
 
+## Quick Download
+
+If you just want the installable skill ZIP and do not want to use Git, download this file directly:
+
+- [Download `wagtales-create-narrative-card_001.zip`](deploy/wagtales-create-narrative-card_001.zip)
+
+On GitHub, open the link above and use the file download button.
+
 Filesystem-safe packaging uses the folder name `wagtales-create-narrative-card` and the upload artifact `wagtales-create-narrative-card.zip`.
 
 ## Structure

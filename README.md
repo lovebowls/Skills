@@ -2,6 +2,15 @@
 
 This folder uses Claude-style skill folders as the standard format for reusable workflows.
 
+## Quick Downloads
+
+If you just want the installable ZIP files and do not want to use Git, download one of these:
+
+- [Wagtales Create Template ZIP](wagtales-create-template/deploy/wagtales-create-template_001.zip)
+- [Wagtales Create Narrative Card ZIP](wagtales-create-narrative-card/deploy/wagtales-create-narrative-card_001.zip)
+
+On GitHub, open the ZIP file link and use the file download button.
+
 This repo contains small reusable Wagtales-focused skills for authoring structured `init.json` story templates and related prompt assets.
 
 If you are not using Wagtales already, the main thing to know is that these skills help a model produce authored game/template JSON plus supporting prompt-control fields such as customDataShape, roll placeholders, and semantic query metadata.
@@ -194,16 +203,17 @@ some_skill.zip
 
 ## Current Skills
 
-- `wagtales-create-template`
-- `template`
+- [wagtales-create-template](wagtales-create-template/README.md) - builds Wagtales `init.json` templates
+- [wagtales-create-narrative-card](wagtales-create-narrative-card/README.md) - builds a single narrative-style card JSON object
+- [_template](_template/README.md) - starter scaffold for creating a new skill
 
 ## Starter Template
 
-Use `template` as the base when creating a new reusable workflow in this folder.
+Use `_template` as the base when creating a new reusable workflow in this folder.
 
 Recommended process:
 
-1. Copy `template` to a new folder with the final skill name.
+1. Copy `_template` to a new folder with the final skill name.
 2. Replace the frontmatter and body in `SKILL.md`.
 3. Add or replace files in `references/`.
 4. Remove any example placeholders that no longer apply.

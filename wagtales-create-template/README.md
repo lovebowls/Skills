@@ -2,6 +2,14 @@
 
 This folder is now a Claude-style skill folder.
 
+## Quick Download
+
+If you just want the installable skill ZIP and do not want to use Git, download this file directly:
+
+- [Download `wagtales-create-template_001.zip`](deploy/wagtales-create-template_001.zip)
+
+On GitHub, open the link above and use the file download button.
+
 Filesystem-safe packaging uses the folder name `wagtales-create-template` and the upload artifact `wagtales-create-template.zip`.
 
 ## Structure
