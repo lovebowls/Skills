@@ -9,7 +9,8 @@ If you just want the installable ZIP files and do not want to use Git, download 
 - [Wagtales Create Template ZIP](wagtales-create-template/deploy/wagtales-create-template_001.zip)
 - [Wagtales Create Narrative Card ZIP](wagtales-create-narrative-card/deploy/wagtales-create-narrative-card_001.zip)
 
-On GitHub, open the ZIP file link and use the file download button.
+On GitHub, open the ZIP file link and use the Download option on the menu.
+Import this zip (without unpacking) on your [claude skills page](https://claude.ai/customize/skills).
 
 This repo contains small reusable Wagtales-focused skills for authoring structured `init.json` story templates and related prompt assets.
 
